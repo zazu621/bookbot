@@ -5,7 +5,17 @@ def main():
     words = numberOfWords(text)
     chars_dict =count_number_characters(text)
     report = create_list(chars_dict)
-    print(report)
+    
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{words} words found in the document")
+    print()
+
+    for item in report:
+        if not item["char"].isalpha():
+            continue
+        print(f"The '{item['char']}' character was found {item['num']} times")
+
+    print("--- End report ---")
 
 def get_book_text(path):
     with open (path) as f:
@@ -28,9 +38,19 @@ def count_number_characters(text):
             my_dictionary [lowered_string] = 1   
     return my_dictionary
 
+
+def sort_on(dict):
+    return dict["num"]
+
 def create_list(chars_dict):
-    list_from_dict = list(chars_dict.items())
-    return list_from_dict
+    sorted_list = []
+    for ch in chars_dict:
+        sorted_list.append({"char": ch,"num": chars_dict[ch]})
+
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
+
+
 
 
 main()
